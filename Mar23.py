@@ -5,9 +5,9 @@ info = '''白萝卜价格趋势模型(简体中文)
 Github: InsulatingShell
 https://github.com/InsulatingShell/ACTurnipPriceModel-cn/
 微博：@绝缘壳
-版本：v 1.1
+版本：v 1.1.1
 最后更新时间： Mar 25
-感谢微博 @这个昵称还没有人注册 的反馈，现在已经考虑了每日上午和下午价格不同的情况
+修复了 无法判断今天是否是三期型/四期型售价峰值 的问题
 '''
 
 
@@ -158,14 +158,14 @@ class Turnip:
         if Turnip.lock_fluc == False:
             if Turnip.flag_3 or Turnip.flag_4:
                 if Turnip.inc == 1:
-                    Turnip.fir = Turnip.today
-                else:
+                    Turnip.fir = Turnip.now
+                elif Turnip.inc >= 1:
                     if Turnip.fir != 0 and Turnip.sec == 0:
-                        Turnip.sec = Turnip.today
-                    if Turnip.fir != 0 and Turnip.sec != 0 and Turnip.thr == 0:
-                        Turnip.thr = Turnip.today
-                    if Turnip.flag_4 and Turnip.flag_3 == False and Turnip.fir != 0 and Turnip.sec != 0 and Turnip.thr != 0 and Turnip.fou ==0 :
-                        Turnip.fou = Turnip.today
+                        Turnip.sec = Turnip.now
+                    elif Turnip.fir != 0 and Turnip.sec != 0 and Turnip.thr == 0:
+                        Turnip.thr = Turnip.now
+                    elif Turnip.flag_4 and Turnip.flag_3 == False and Turnip.fir != 0 and Turnip.sec != 0 and Turnip.thr != 0 and Turnip.fou ==0 :
+                        Turnip.fou = Turnip.now
 
     def compareLastPrice(self):
         if (float(Turnip.last) >= float(Turnip.now)):
