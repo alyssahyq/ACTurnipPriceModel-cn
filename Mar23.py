@@ -5,9 +5,9 @@ info = '''白萝卜价格趋势模型(简体中文)
 Github: InsulatingShell
 https://github.com/InsulatingShell/ACTurnipPriceModel-cn/
 微博：@绝缘壳
-版本：v 1.0
-最后更新时间： Mar 23
-目前如果输入了不含数字的内容，会直接退出，重新运行即可
+版本：v 1.0.1
+最后更新时间： Mar 25
+修复了 issue 第一次输入范围错误会出现异常 #1 的问题
 '''
 
 
@@ -17,15 +17,15 @@ def readInput():
     return price.group(0)
 
 def SunPriceCheck(price):
-    if float(price) < 90 or float(price) > 110 :
+    while float(price) < 90 or float(price) > 110 :
         print("一般来说，白萝卜的购入价在 90-110 之间，如果确定没有输错，请再输入一次")
         new_price = readInput()
-        if new_price == price:
-            return new_price
+        if int(new_price) == int(price):
+            price = new_price
+            break
         else:
-            SunPriceCheck(new_price)
-    else:
-        return price
+            price = new_price
+    return price
 
 def priceCheck(price):
     if float(price) < 1 :
